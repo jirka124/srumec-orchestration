@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  rabbitmq-service:
+    container_name: rabbitmq-service
+    build: ../srumec-rabbitmq-service
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - shrumec-net
+
+  events-service:
+    container_name: events-service
+    build:
+      context: ../srumec-events-service
+      dockerfile: Dockerfile
+    env_file:
+      - ../srumec-events-service/.env
+    networks:
+      - shrumec-net
+
+networks:
+  shrumec-net:
+    driver: bridge
